@@ -9,12 +9,12 @@ const getBookAuthors = book => {
 
   return authorIds.map(authorId => data.authors[authorId]);
 }
+
 app.get('/api/books', (req, res) => {
   res.send(data.books.map(book => {
-    return {
-      ...book,
+    return Object.assign({}, book, {
       authors: getBookAuthors(book)
-    };
+    });
   }));
 });
 
