@@ -1,8 +1,3 @@
-export const testAction = () => ({
-    type: 'TEST_ACTION',
-    value: 42
-});
-
 export const receiveBooks = (books) => ({
     type: 'RECEIVE_BOOKS',
     books
