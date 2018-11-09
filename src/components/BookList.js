@@ -16,16 +16,13 @@ class BookList extends React.Component {
     this.unsubscribe = this.store.subscribe(() => {
       this.setState(this.store.getState());
     });
-    actions.fetchBooks(this.store.dispatch);
+    this.store.dispatch(actions.fetchBooks());
   }
   componentWillUnmount() {
     this.unsubscribe();
   }
   deleteBook = (id) => {
-    // const currentBooks = this.state.books;
-    // const books = currentBooks.filter(book => book.id !== id);
-
-    // this.setState({ books });
+    this.store.dispatch(actions.deleteBook(id));
   };
   addBook = (title, price) => {
     // this.setState({

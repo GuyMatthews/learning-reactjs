@@ -3,7 +3,7 @@ const cors = require('cors');
 const app = express();
 app.use(cors());
 
-const { data } = require('./data');
+let { data } = require('./data');
 const getBookAuthors = book => {
   const authorIds = book.authorId ? [book.authorId] : book.authorIds;
 
@@ -16,6 +16,13 @@ app.get('/api/books', (req, res) => {
       authors: getBookAuthors(book)
     });
   }));
+});
+
+app.delete('/api/books/:bookId', (req, res) => {
+  data.books = data.books.filter(book =>
+    book.id !== req.params.bookId
+  );
+  res.send({ deleted: true });
 });
 
 app.listen(8000, () => {
