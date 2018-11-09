@@ -3,32 +3,38 @@ import React from 'react';
 import Book from './Book';
 import Form from './Form';
 
+import configureStore from '../store';
+import * as actions from '../actions';
+
 class BookList extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { books: [] };
+    this.store = configureStore();
+    this.state = this.store.getState();
   }
   componentDidMount() {
-    fetch("http://localhost:8000/api/books")
-    .then(response => response.json())
-    .then(books => {
-      this.setState({books})
+    this.unsubscribe = this.store.subscribe(() => {
+      this.setState(this.store.getState());
     });
+    actions.fetchBooks(this.store.dispatch);
+  }
+  componentWillUnmount() {
+    this.unsubscribe();
   }
   deleteBook = (id) => {
-    const currentBooks = this.state.books;
-    const books = currentBooks.filter(book => book.id !== id);
+    // const currentBooks = this.state.books;
+    // const books = currentBooks.filter(book => book.id !== id);
 
-    this.setState({ books });
+    // this.setState({ books });
   };
   addBook = (title, price) => {
-    this.setState({
-      books: this.state.books.concat({
-        id: Date.now(),
-        title,
-        price
-      })
-    });
+    // this.setState({
+    //   books: this.state.books.concat({
+    //     id: Date.now(),
+    //     title,
+    //     price
+    //   })
+    // });
   };
   render() {
     return (
